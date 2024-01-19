@@ -1,6 +1,6 @@
 from forecasting_models.naive_model import NaiveForecastModel
 from forecasting_models.rolling_avg_model import RollingMean
-
+from forecasting_models.exponential_smoothing import ExponentialSmoothing
 
 def select_forecasting_model(model_name):
     model_name = model_name.lower()
@@ -8,7 +8,7 @@ def select_forecasting_model(model_name):
     model_classes = {
         'naive': NaiveForecastModel,
         'rolling mean': RollingMean,
-        # 'Exponentially Weighted Mean': ExponentiallyWeightedMeanModel,
+        'exponential smoothing': ExponentialSmoothing,
         # 'Holt': DoubleExponentialSmoothingModel,
         # 'Holt/Winters': TripleExponentialSmoothingModel,
         # 'optimized exponential smoothing': OptimizedExponentialSmoothingModel,
