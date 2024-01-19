@@ -1,4 +1,4 @@
-from forecast_model import ForecastModel
+from forecasting_models.forecast_model import ForecastModel
 import pandas as pd
 
 
