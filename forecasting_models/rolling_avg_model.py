@@ -3,12 +3,15 @@ import pandas as pd
 
 
 class RollingMean(ForecastModel):
-    """Rolling mean, also known as moving averages (MA).
-    Takes "n" previous target variable and averages them and returns as a new value.
-    Commonly used periods are: 3 (3 day rolling mean), 7 (weekly rolling average), and 364 (yearly rolling average)
-    """
 
     def __init__(self, df, x_col_name, y_col_name, n_periods):
+        """Rolling mean, also known as moving averages (MA).
+        Takes "n" previous target variable and averages them and returns as a new value.
+        Commonly used periods are: 3 (3 day rolling mean), 7 (weekly rolling average), and 364 (yearly rolling average)
+
+        :param n_periods: (int)
+            The number of previous periods to be used for calculating the rolling mean.
+        """
         super().__init__(df, x_col_name, y_col_name)
         self.n_periods = n_periods
 
