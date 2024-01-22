@@ -2,6 +2,7 @@ from forecasting_models.naive_model import NaiveForecastModel
 from forecasting_models.rolling_avg_model import RollingMean
 from forecasting_models.exponential_smoothing import ExponentialSmoothing
 
+
 def select_forecasting_model(model_name):
     model_name = model_name.lower()
 
