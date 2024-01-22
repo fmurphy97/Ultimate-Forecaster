@@ -1,7 +1,7 @@
 from forecasting_models.naive_model import NaiveForecastModel
 from forecasting_models.rolling_avg_model import RollingMean
 from forecasting_models.exponential_smoothing import ExponentialSmoothing
-
+from forecasting_models.light_gbm import LightGBM
 
 def select_forecasting_model(model_name):
     model_name = model_name.lower()
@@ -18,7 +18,7 @@ def select_forecasting_model(model_name):
         # 'sarima': SARIMAModel,
         # 'sarimax': SARIMAXModel,
         # 'multiple linear regression': MultipleLinearRegressionModel,
-        # 'lightgbm': LightGBMModel,
+        'lightgbm': LightGBM,
         # 'prophet': ProphetModel,
         # 'lstm': LSTMModel,
         # 'xgboost': XGBoostModel

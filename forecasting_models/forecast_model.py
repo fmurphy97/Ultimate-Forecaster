@@ -16,12 +16,11 @@ class ForecastModel:
         self.x_col_name = x_col_name
         self.y_col_name = y_col_name
 
-        self.x_train = self.df[self.x_col_name]
-        self.y_train = self.df[self.y_col_name]
+        self.all_regressors = [x_col_name]
         if external_regressors is not None:
-            self.exogenous_train = self.df[external_regressors]
-        else:
-            self.exogenous_train = None
+            self.all_regressors += external_regressors
+        self.x_train = self.df[self.all_regressors]
+        self.y_train = self.df[self.y_col_name]
 
     def fit_train(self):
         """
