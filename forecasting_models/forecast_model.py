@@ -40,7 +40,16 @@ class ForecastModel:
         """
         pass
 
-    def plot_results(self, start_date: str, end_date: str) -> None:
+    def plot_results(self, start_date, end_date):
+        """
+        Plots the historical and predicted values for the target variable within the specified date range.
+
+        :param start_date: str
+            Start date for the plot.
+        :param end_date: str
+            End date for the plot.
+        :return: None
+        """
         # Filter by date
         df_filtered = self.df[(self.df[self.x_col_name] >= start_date) & (self.df[self.x_col_name] <= end_date)]
 
