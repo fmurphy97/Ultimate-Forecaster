@@ -1,10 +1,17 @@
-from error_metrics.error import Error
+from metrics.errors import Error
 from tensorflow.python.keras.losses import Huber, LogCosh, losses_utils
 
+
 class Loss(Error):
-    def __init__(self, y_true, y_pred, sample_weight, reduction=losses_utils.ReductionV2.AUTO):
-        if reduction not in [losses_utils.ReductionV2.AUTO, losses_utils.ReductionV2.SUM, losses_utils.ReductionV2.NONE]:
-            raise ValueError(f"Invalid reduction value: {reduction}. Must be one of {['AUTO', 'SUM', 'NONE']}")
+    def __init__(self, y_true, y_pred, sample_weight, reduction_name="auto"):
+        reductions = {"auto": losses_utils.ReductionV2.AUTO,
+                      "sum": losses_utils.ReductionV2.SUM,
+                      "none": losses_utils.ReductionV2.NONE}
+
+        if reduction_name not in reductions:
+            raise ValueError(f"Invalid reduction value: {reduction_name}. Must be one of {['AUTO', 'SUM', 'NONE']}")
+        else:
+            reduction = reductions[reduction_name]
         super().__init__(y_true, y_pred, sample_weight)
         self.reduction = reduction
 
