@@ -25,4 +25,7 @@ class NaiveForecastModel(ForecastModel):
         self.df[self.model_name] = self.df[self.model_name].ffill()
 
         values_to_forecast = len(x_test)
-        return self.df[[self.x_col_name, self.model_name]][-values_to_forecast:]
+
+        fit = self.df[self.model_name][:-values_to_forecast]
+        predict = self.df[self.model_name][-values_to_forecast:]
+        return list(fit), list(predict)
