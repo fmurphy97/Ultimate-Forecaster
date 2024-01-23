@@ -16,6 +16,10 @@ class ForecastModel:
         self.x_col_name = x_col_name
         self.y_col_name = y_col_name
 
+        # TODO: add these params
+        # self.train_start_end_dates = []
+        # self.model_periods = "D", "W", "M", etc
+
         self.all_regressors = [x_col_name]
         if external_regressors is not None:
             self.all_regressors += external_regressors
