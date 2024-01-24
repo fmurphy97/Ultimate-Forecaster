@@ -12,23 +12,31 @@ class Sarimax(ForecastModel):
         """
         super().__init__(df=df, x_col_name=x_col_name, y_col_name=y_col_name, external_regressors=external_regressors)
 
-        self.df = self.df.set_index(self.x_col_name, inplace=True)
+        self.df.set_index(self.x_col_name, inplace=True)
         self.order = order
         self.seasonal_order = seasonal_order
 
-        self.model_name = (f"ARIMA"
-                           f"_{order}"
-                           f"_{seasonal_order}")
+        model_text = "ARIMA"
+
+        if external_regressors is not None:
+            model_text = model_text + "X"
+        if seasonal_order != (0, 0, 0, 0):
+            model_text = "S" + model_text
+            self.model_name = f"{model_text}_{order}_{seasonal_order}"
+        else:
+            self.model_name = f"{model_text}_{order}"
 
     def fit_train(self):
         if self.external_regressors is not None:
             exogenous_features_df = self.df[[self.external_regressors]]
         else:
             exogenous_features_df = None
-        self.model = ARIMA(self.y_train, exog=exogenous_features_df, dates=self.df[self.x_col_name],
+        self.model = ARIMA(self.df[self.y_col_name], exog=exogenous_features_df,
                            order=self.order, seasonal_order=self.seasonal_order).fit()
 
     def predict(self, x_test):
+        x_test.set_index(self.x_col_name, inplace=True)
+
         # BUG: predict method not working
         if self.external_regressors is not None:
             exogenous_features_df = x_test[[self.external_regressors]]
@@ -37,26 +45,7 @@ class Sarimax(ForecastModel):
 
         fit = list(self.model.predict())
         pred = list(self.model.predict(
-            start=x_test[self.x_col_name].min().strftime('%Y-%m-%d'),
-            end=x_test[self.x_col_name].max().strftime('%Y-%m-%d'),
+            start=x_test.index.min(),
+            end=x_test.index.max(),
             exog=exogenous_features_df))
         return fit, pred
-
-
-if __name__ == "__main__":
-    import pandas as pd
-
-    df_alb = pd.read_csv("../data/peajes_alberdi_training_preproc.csv")
-    df_alb['date'] = pd.to_datetime(df_alb['fecha'], format='%Y-%m-%d')
-    df_alb_train = df_alb.copy()[df_alb['date'] < '2019-07-01']
-    df_alb_test = df_alb.copy()[df_alb['date'] >= '2019-07-01']
-    x_feature_name = "date"
-    y_feature_name = "cantidad_pasos"
-
-    model_class = Sarimax
-
-    model_instance = model_class(df=df_alb_train.copy(), x_col_name=x_feature_name, y_col_name=y_feature_name,
-                                 order=(7, 0, 3))
-    model_instance.fit_train()
-    fitted_data, predicted_data = model_instance.predict(df_alb_test.copy()[[x_feature_name]])
-    df_alb[model_instance.model_name] = fitted_data + predicted_data
