@@ -2,7 +2,7 @@ from forecasting_models.naive_model import NaiveForecastModel
 from forecasting_models.rolling_avg_model import RollingMean
 from forecasting_models.exponential_smoothing import (SimpleExponentialSmoothing, DoubleExponentialSmoothing,
                                                       TripleExponentialSmoothing, OptimizedExponentialSmoothing)
-
+from forecasting_models.sarimax import Sarimax
 
 def select_forecasting_model(model_name):
     model_name = model_name.lower()
@@ -17,7 +17,7 @@ def select_forecasting_model(model_name):
         # 'autoregressive': AutoRegressiveModel,
         # 'arima': ARIMAModel,
         # 'sarima': SARIMAModel,
-        # 'sarimax': SARIMAXModel,
+        'sarimax': Sarimax,
         # 'multiple linear regression': MultipleLinearRegressionModel,
         # 'lightgbm': LightGBM,
         # 'prophet': ProphetModel,

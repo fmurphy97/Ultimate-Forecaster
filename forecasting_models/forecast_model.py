@@ -1,6 +1,3 @@
-import matplotlib.pyplot as plt
-
-
 class ForecastModel:
     def __init__(self, df, x_col_name="date", y_col_name="y", external_regressors=None):
         """
@@ -21,6 +18,7 @@ class ForecastModel:
         # self.model_periods = "D", "W", "M", etc
 
         self.all_regressors = [x_col_name]
+        self.external_regressors = external_regressors
         if external_regressors is not None:
             self.all_regressors += external_regressors
         self.x_train = self.df[self.all_regressors]
@@ -42,25 +40,3 @@ class ForecastModel:
             Predicted values for the target variable.
         """
         pass
-
-    def plot_results(self, start_date, end_date):
-        """
-        Plots the historical and predicted values for the target variable within the specified date range.
-
-        :param start_date: str
-            Start date for the plot.
-        :param end_date: str
-            End date for the plot.
-        :return: None
-        """
-        # Filter by date
-        df_filtered = self.df[(self.df[self.x_col_name] >= start_date) & (self.df[self.x_col_name] <= end_date)]
-
-        # Create the image
-        fig, ax = plt.subplots(figsize=(18, 6))
-        ax.plot(df_filtered[self.x_col_name], df_filtered['cantidad_pasos'], label='Historical')
-        ax.plot(df_filtered[self.x_col_name], df_filtered[self.model_name], label=self.model_name)
-        ax.legend()
-        ax.tick_params(labelrotation=90)
-        plt.tight_layout()
-        plt.show()
