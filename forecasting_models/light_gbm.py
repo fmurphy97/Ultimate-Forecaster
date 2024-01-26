@@ -34,4 +34,3 @@ df_alb_test = df_alb.copy()[df_alb['date'] >= '2019-07-01']
 model_instance = LightGBM(df=df_alb_train.copy(), x_col_name='date', y_col_name='cantidad_pasos')
 model_instance.fit_train()
 y_test = model_instance.predict(df_alb_test.copy()[['date']])
-model_instance.plot_results(start_date='2016-08-01', end_date='2017-08-01')
